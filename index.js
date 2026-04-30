@@ -1,12 +1,17 @@
 import express from "express";
 import axios from "axios";
+import path from "path";
+
+
+
 
 const app = express();
 const port = 6969;
 const swApi = "https://swapi.info/api/"
 app.use(express.urlencoded({extended:true}));
 app.use(express.json());
-app.use(express.static("public"))
+app.use(express.static("public"));
+app.set("view engine", "ejs");
 
 app.get("/", (req,res) =>{
     res.render("home.ejs")
@@ -60,7 +65,7 @@ app.get("/fighter/:id", async (req, res) => {
   const response = await axios.get(`${swApi}people/${req.params.id}`);
   const fighter = response.data;
 //   console.log(fighter);
-  res.re("fighter.ejs", { fighter });
+  res.render("fighter.ejs", { fighter });
 });
 
 
