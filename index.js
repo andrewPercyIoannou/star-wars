@@ -60,7 +60,7 @@ app.get("/fighter/:id", async (req, res) => {
   const response = await axios.get(`${swApi}people/${req.params.id}`);
   const fighter = response.data;
 //   console.log(fighter);
-  res.render("fighter.ejs", { fighter });
+  res.re("fighter.ejs", { fighter });
 });
 
 

@@ -42,12 +42,12 @@
               <span class="match-time">1<%= String(i+1).padStart(2,'0') %>:00 GST</span>
             </div>
             <div class="fighter-row <%= !isActive && w.name === fight[0].name ? 'winner' : '' %>">
-              <a class="fighter-name" href="/fighter/<%= fight[0].url.split('/').filter(Boolean).pop() %>"><%= fight[0].name %></a>
+              <a class="fighter-name" target="_blank" rel="noopener noreferrer" href="/fighter/<%= fight[0].url.split('/').filter(Boolean).pop() %>"><%= fight[0].name %></a>
               <span class="fighter-score"><%= isActive ? '—' : s0 %></span>
             </div>
             <div class="match-vs">VS</div>
             <div class="fighter-row <%= !isActive && w.name === fight[1].name ? 'winner' : '' %>">
-              <a class="fighter-name" href="/fighter/<%= fight[1].url.split('/').filter(Boolean).pop() %>"><%= fight[1].name %></a>
+              <a class="fighter-name" target="_blank" rel="noopener noreferrer" href="/fighter/<%= fight[1].url.split('/').filter(Boolean).pop() %>"><%= fight[1].name %></a>
               <span class="fighter-score"><%= isActive ? '—' : s1 %></span>
             </div>
           </div>
@@ -82,12 +82,12 @@
                 <span class="match-time">1<%= String(i+3).padStart(2,'0') %>:00 GST</span>
               </div>
               <div class="fighter-row <%= !isSemi && w.name === fight[0].name ? 'winner' : '' %>">
-                <a class="fighter-name" href="/fighter/<%= fight[0].url.split('/').filter(Boolean).pop() %>"><%= fight[0].name %></a>
+                <a class="fighter-name" target="_blank" rel="noopener noreferrer" href="/fighter/<%= fight[0].url.split('/').filter(Boolean).pop() %>"><%= fight[0].name %></a>
                 <span class="fighter-score"><%= isSemi ? '—' : s0 %></span>
               </div>
               <div class="match-vs">VS</div>
               <div class="fighter-row <%= !isSemi && w.name === fight[1].name ? 'winner' : '' %>">
-                <a class="fighter-name" href="/fighter/<%= fight[1].url.split('/').filter(Boolean).pop() %>"><%= fight[1].name %></a>
+                <a class="fighter-name" target="_blank" rel="noopener noreferrer" href="/fighter/<%= fight[1].url.split('/').filter(Boolean).pop() %>"><%= fight[1].name %></a>
                 <span class="fighter-score"><%= isSemi ? '—' : s1 %></span>
               </div>
             </div>
@@ -127,12 +127,12 @@
           <div class="match-card active">
             <div class="match-meta"><span>GRAND FINAL</span><span class="match-time">20:00 GST</span></div>
             <div class="fighter-row <%= fw.name === final[0].name ? 'winner' : '' %>">
-              <a class="fighter-name" href="/fighter/<%= final[0].url.split('/').filter(Boolean).pop() %>"><%= final[0].name %></a>
+              <a class="fighter-name" target="_blank" rel="noopener noreferrer" href="/fighter/<%= final[0].url.split('/').filter(Boolean).pop() %>"><%= final[0].name %></a>
               <span class="fighter-score"><%= fs0 %></span>
             </div>
             <div class="match-vs">VS</div>
             <div class="fighter-row <%= fw.name === final[1].name ? 'winner' : '' %>">
-              <a class="fighter-name" href="/fighter/<%= final[1].url.split('/').filter(Boolean).pop() %>"><%= final[1].name %></a>
+              <a class="fighter-name" target="_blank" rel="noopener noreferrer" href="/fighter/<%= final[1].url.split('/').filter(Boolean).pop() %>"><%= final[1].name %></a>
               <span class="fighter-score"><%= fs1 %></span>
             </div>
           </div>
