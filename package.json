@@ -1,0 +1,27 @@
+{
+  "name": "star-wars",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/andrewPercyIoannou/star-wars#readme",
+  "bugs": {
+    "url": "https://github.com/andrewPercyIoannou/star-wars/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andrewPercyIoannou/star-wars.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "axios": "^1.15.2",
+    "body-parser": "^2.2.2",
+    "express": "^5.2.1"
+  },
+  "devDependencies": {}
+}
