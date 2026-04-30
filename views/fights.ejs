@@ -1,0 +1,182 @@
+<%- include("partials/header.ejs") %>
+
+<%
+  const getScore = (f) => (Number(f.mass) || 0) + (Number(f.height) || 0);
+  const getWinner = (f1, f2) => getScore(f1) >= getScore(f2) ? f1 : f2;
+  const isActive = !semiFinals && !final;
+  const isSemi   = semiFinals && !final;
+  const isFinal  = !!final;
+
+  const now = new Date();
+  const fmt = (d) => d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short' });
+  const d1 = fmt(now);
+  const d2 = fmt(new Date(now.getTime() + 86400000));
+  const d3 = fmt(new Date(now.getTime() + 172800000));
+%>
+
+<div class="tournament-wrapper">
+
+  <div class="tournament-title">Galactic Tournament</div>
+  <div class="tournament-subtitle">May the Force Decide</div>
+
+  <div class="phase-indicator">
+    <div class="phase-dot <%= isActive ? 'active' : 'done' %>"></div>
+    <div class="phase-dot <%= isSemi ? 'active' : (isFinal ? 'done' : '') %>"></div>
+    <div class="phase-dot <%= isFinal ? 'active' : '' %>"></div>
+  </div>
+
+  <div class="bracket">
+
+    <!-- ROUND 1 -->
+    <div class="round-col">
+      <div class="round-label">Round 1 · <%= d1 %></div>
+      <div class="round-matches">
+        <% round1.forEach(function(fight, i) {
+          const w = getWinner(fight[0], fight[1]);
+          const s0 = getScore(fight[0]);
+          const s1 = getScore(fight[1]);
+        %>
+          <div class="match-card <%= isActive ? 'active' : 'dimmed' %>">
+            <div class="match-meta">
+              <span>MATCH <%= i + 1 %></span>
+              <span class="match-time">1<%= String(i+1).padStart(2,'0') %>:00 GST</span>
+            </div>
+            <div class="fighter-row <%= !isActive && w.name === fight[0].name ? 'winner' : '' %>">
+              <a class="fighter-name" href="/fighter/<%= fight[0].url.split('/').filter(Boolean).pop() %>"><%= fight[0].name %></a>
+              <span class="fighter-score"><%= isActive ? '—' : s0 %></span>
+            </div>
+            <div class="match-vs">VS</div>
+            <div class="fighter-row <%= !isActive && w.name === fight[1].name ? 'winner' : '' %>">
+              <a class="fighter-name" href="/fighter/<%= fight[1].url.split('/').filter(Boolean).pop() %>"><%= fight[1].name %></a>
+              <span class="fighter-score"><%= isActive ? '—' : s1 %></span>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+    </div>
+
+    <!-- CONNECTOR -->
+    <div class="connector-col" style="padding-top: 42px;">
+      <% for(let i = 0; i < 2; i++) { %>
+        <div class="connector" style="flex:1; display:flex; align-items:center;">
+          <svg viewBox="0 0 40 120" preserveAspectRatio="none" style="height:120px;">
+            <path d="M0,30 H20 V90 H40" fill="none" stroke="#FFE81F22" stroke-width="1.5"/>
+          </svg>
+        </div>
+      <% } %>
+    </div>
+
+    <!-- SEMI FINALS -->
+    <div class="round-col">
+      <div class="round-label">Semi Finals · <%= d2 %></div>
+      <div class="round-matches" style="justify-content: space-around;">
+        <% if (semiFinals) { %>
+          <% semiFinals.forEach(function(fight, i) {
+            const w = getWinner(fight[0], fight[1]);
+            const s0 = getScore(fight[0]);
+            const s1 = getScore(fight[1]);
+          %>
+            <div class="match-card <%= isSemi ? 'active' : 'dimmed' %>">
+              <div class="match-meta">
+                <span>SEMI <%= i + 1 %></span>
+                <span class="match-time">1<%= String(i+3).padStart(2,'0') %>:00 GST</span>
+              </div>
+              <div class="fighter-row <%= !isSemi && w.name === fight[0].name ? 'winner' : '' %>">
+                <a class="fighter-name" href="/fighter/<%= fight[0].url.split('/').filter(Boolean).pop() %>"><%= fight[0].name %></a>
+                <span class="fighter-score"><%= isSemi ? '—' : s0 %></span>
+              </div>
+              <div class="match-vs">VS</div>
+              <div class="fighter-row <%= !isSemi && w.name === fight[1].name ? 'winner' : '' %>">
+                <a class="fighter-name" href="/fighter/<%= fight[1].url.split('/').filter(Boolean).pop() %>"><%= fight[1].name %></a>
+                <span class="fighter-score"><%= isSemi ? '—' : s1 %></span>
+              </div>
+            </div>
+          <% }) %>
+        <% } else { %>
+          <% for(let i = 0; i < 2; i++) { %>
+            <div class="match-card dimmed">
+              <div class="match-meta"><span>SEMI <%= i+1 %></span><span class="match-time">TBD</span></div>
+              <div class="fighter-row"><span class="fighter-name pending">TBD</span></div>
+              <div class="match-vs">VS</div>
+              <div class="fighter-row"><span class="fighter-name pending">TBD</span></div>
+            </div>
+          <% } %>
+        <% } %>
+      </div>
+    </div>
+
+    <!-- CONNECTOR -->
+    <div class="connector-col" style="padding-top: 42px;">
+      <div class="connector" style="flex:1; display:flex; align-items:center;">
+        <svg viewBox="0 0 40 80" preserveAspectRatio="none" style="height:80px;">
+          <path d="M0,30 H20 V50 H40" fill="none" stroke="#FFE81F22" stroke-width="1.5"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- FINAL -->
+    <div class="round-col">
+      <div class="round-label">Final · <%= d3 %></div>
+      <div class="round-matches" style="justify-content: center;">
+        <% if (final) { %>
+          <%
+            const fw = getWinner(final[0], final[1]);
+            const fs0 = getScore(final[0]);
+            const fs1 = getScore(final[1]);
+          %>
+          <div class="match-card active">
+            <div class="match-meta"><span>GRAND FINAL</span><span class="match-time">20:00 GST</span></div>
+            <div class="fighter-row <%= fw.name === final[0].name ? 'winner' : '' %>">
+              <a class="fighter-name" href="/fighter/<%= final[0].url.split('/').filter(Boolean).pop() %>"><%= final[0].name %></a>
+              <span class="fighter-score"><%= fs0 %></span>
+            </div>
+            <div class="match-vs">VS</div>
+            <div class="fighter-row <%= fw.name === final[1].name ? 'winner' : '' %>">
+              <a class="fighter-name" href="/fighter/<%= final[1].url.split('/').filter(Boolean).pop() %>"><%= final[1].name %></a>
+              <span class="fighter-score"><%= fs1 %></span>
+            </div>
+          </div>
+        <% } else { %>
+          <div class="match-card dimmed">
+            <div class="match-meta"><span>GRAND FINAL</span><span class="match-time">20:00 GST</span></div>
+            <div class="fighter-row"><span class="fighter-name pending">TBD</span></div>
+            <div class="match-vs">VS</div>
+            <div class="fighter-row"><span class="fighter-name pending">TBD</span></div>
+          </div>
+        <% } %>
+      </div>
+    </div>
+
+  </div><!-- /bracket -->
+
+  <!-- CHAMPION -->
+  <% if (champion) { %>
+    <div class="champion-box">
+      <div class="champion-label">🏆 &nbsp; Galactic Champion &nbsp; 🏆</div>
+      <div class="champion-name"><%= champion.name %></div>
+    </div>
+  <% } %>
+
+  <!-- ACTION BUTTON -->
+  <div class="action-area">
+    <% if (!semiFinals && !final) { %>
+      <form action="/semi-finals" method="POST">
+        <input type="hidden" name="round1" value="<%= JSON.stringify(round1) %>">
+        <button type="submit" class="action-btn">⚔ Advance to Semi Finals</button>
+      </form>
+    <% } else if (semiFinals && !final) { %>
+      <form action="/final" method="POST">
+        <input type="hidden" name="round1" value="<%= JSON.stringify(round1) %>">
+        <input type="hidden" name="semiFinals" value="<%= JSON.stringify(semiFinals) %>">
+        <button type="submit" class="action-btn">⚔ Begin the Final</button>
+      </form>
+    <% } else { %>
+      <form action="/fight" method="GET">
+        <button type="submit" class="action-btn">↺ New Tournament</button>
+      </form>
+    <% } %>
+  </div>
+
+</div>
+
+<%- include('partials/footer.ejs') %>
