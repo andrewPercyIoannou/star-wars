@@ -6,7 +6,7 @@ import path from "path";
 
 
 const app = express();
-const port = 6969;
+const port = process.env.PORT || 6969;
 const swApi = "https://swapi.info/api/"
 app.use(express.urlencoded({extended:true}));
 app.use(express.json());
